@@ -1,0 +1,13 @@
+
+sources:
+  - name: freshcart_raw
+    database: "{{ target.database }}"
+    schema: "{{ target.schema }}"
+    tables:
+      - name: product_categories
+      - name: products
+      - name: customers
+      - name: stores 
+      - name: promotions
+      - name: sales_transactions
+      - name: sales_transaction_items

@@ -1,0 +1,153 @@
+models:
+  - name: dim_customers
+    description: "Dimension table for customers."
+    columns:
+      - name: customer_key
+        description: "Primary key for the customer."
+        data_tests:
+          - not_null
+      - name: customer_id
+        description: "Unique identifier for the customer."
+        data_tests:
+          - not_null
+      - name: customer_first_name
+        description: "First name of the customer."
+        data_tests:
+          - not_null
+      - name: customer_last_name
+        description: "Last name of the customer."
+        data_tests:
+          - not_null
+      - name: customer_email
+        description: "Email address of the customer."
+        data_tests:
+          - not_null
+      - name: customer_loyalty_tier
+        description: "Loyalty tier of the customer."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['BRONZE','SILVER','GOLD','PLATINUM', 'EMPTY']
+      
+  - name: dim_date
+    description: "Dimension table for dates."
+    columns:
+      - name: date_key
+        description: "Primary key for the date."
+        data_tests:
+          - not_null
+          - unique
+      - name: date
+        description: "The full date."
+        data_tests:
+          - not_null
+      - name: day_of_week
+        description: "Day of the week."
+        data_tests:
+          - not_null
+      - name: month
+        description: "Month of the year."
+        data_tests:
+          - not_null
+      - name: month_name
+        description: "Name of the month."
+        data_tests:
+          - not_null
+      - name: quarter
+        description: "Quarter of the year."
+        data_tests:
+          - not_null
+      - name: year
+        description: "Year."
+        data_tests:
+          - not_null
+      - name: day_name
+        description: "Name of the day."
+        data_tests:
+          - not_null
+
+  - name: dim_products
+    description: "Dimension table for products."
+    columns:
+      - name: product_key
+        description: "Primary key for the product."
+        data_tests:
+          - not_null
+          - unique
+      - name: product_id
+        description: "Unique identifier for the product."
+        data_tests:
+          - not_null
+      - name: product_sku
+        description: "Stock Keeping Unit for the product."
+        data_tests:
+          - not_null
+      - name: product_name
+        description: "Name of the product."
+        data_tests:
+          - not_null
+      - name: product_category_id
+        description: "Category of the product."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_product_categories')
+                field: category_id
+      - name: product_category_name
+        description: "Category name of the product."
+        data_tests:
+          - not_null
+
+  - name: dim_promotions
+    columns:
+      - name: promotion_key
+        description: "Primary key for the promotion."
+        data_tests:
+          - not_null
+          - unique
+      - name: promotion_id
+        description: "Unique identifier for the promotion."
+        data_tests:
+          - not_null
+      - name: promotion_name
+        description: "Name of the promotion."
+        data_tests:
+          - not_null
+      - name: promotion_start_date
+        description: "Start date of the promotion."
+        data_tests:
+          - not_null
+      - name: promotion_end_date
+        description: "End date of the promotion."
+        data_tests:
+          - not_null
+      - name: promotion_type
+        description: "Type of the promotion."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['PERCENTAGE','FIXED_AMOUNT','EMPTY']
+
+  - name: dim_stores
+    description: "Dimension table for stores."
+    columns:
+      - name: store_key
+        description: "Primary key for the store."
+        data_tests:
+          - not_null
+          - unique
+      - name: store_id
+        description: "Unique identifier for the store."
+        data_tests:
+          - not_null
+      - name: store_name
+        description: "Name of the store."
+        data_tests:
+          - not_null
+      - name: store_type
+        description: "Type of the store."
+        data_tests:
+          - not_null

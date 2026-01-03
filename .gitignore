@@ -1,0 +1,6 @@
+logs/
+*/__pycache__/
+*/*.bak
+dbt_internal_packages/
+.env
+target/

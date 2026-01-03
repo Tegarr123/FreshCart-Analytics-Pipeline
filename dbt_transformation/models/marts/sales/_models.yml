@@ -1,0 +1,157 @@
+
+models:
+  - name: fct_sales_transactions
+    description: "Fact table for sales transactions including transaction details and associated items."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - transaction_id
+              - dim_date_key
+              - dim_store_key
+              - dim_customer_key
+              - dim_product_key
+              - dim_promotion_key
+    columns:
+      - name: transaction_id
+        description: "identifier for sales transaction."
+        data_tests:
+          - not_null
+      - name: dim_date_key
+        description: "Foreign key referencing the date dimension table."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: dim_store_key
+        description: "Foreign key referencing the store dimension table."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_stores')
+                field: store_key
+      - name: dim_customer_key
+        description: "Foreign key referencing the customer dimension table."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_key
+      - name: dim_product_key
+        description: "Foreign key referencing the product dimension table."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_key
+      - name: dim_promotion_key
+        description: "Foreign key referencing the promotion dimension table."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_promotions')
+                field: promotion_key
+      - name: transaction_is_completed
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+      - name: item_quantity
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: item_unit_price_at_sale
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: item_line_discount_applied
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: item_line_total_before_discount
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: item_line_total_after_discount
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: promotion_discount_value
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: promotion_is_percentage
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+      - name: product_current_base_price
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+
+  - name: fct_market_basket
+    description: "Fact table for market basket analysis capturing product pairings in transactions."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - dim_date_key
+              - dim_product_A_key
+              - dim_product_B_key
+              - dim_promotion_key
+              - dim_store_key
+    columns:
+      - name: total_quantity_product_A
+        description: "Total quantity sold of product A in the basket pair."
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: total_quantity_product_B
+        description: "Total quantity sold of product B in the basket pair."
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: total_sales_product_A
+        description: "Total sales amount for product A in the basket pair."
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: total_sales_product_B
+        description: "Total sales amount for product B in the basket pair."
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+      - name: basket_count
+        description: "Number of baskets (transactions) containing the product pair."
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"

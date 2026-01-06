@@ -9,7 +9,8 @@ import uuid
 from datetime import datetime, timedelta
 
 def get_random_datetime():
-    start_date = datetime.now()
+    # start_date = datetime.now()
+    start_date = datetime.now() + timedelta(days=360)
     end_date = start_date + timedelta(days=360)
     
     time_between = end_date - start_date
@@ -17,21 +18,10 @@ def get_random_datetime():
     random_seconds = random.randrange(86400)
     
     return start_date + timedelta(days=random_days, seconds=random_seconds)
-
-# def get_random_datetime():
-#     end_date = datetime.now()
-#     start_date = end_date - timedelta(days=360*2)
-    
-#     time_between = end_date - start_date
-#     random_days = random.randrange(time_between.days)
-#     random_seconds = random.randrange(86400)
-    
-#     return start_date + timedelta(days=random_days, seconds=random_seconds)
-
 DB_CONFIG = {
     'dbname': 'freshcart',
-    'user':  'postgres',
-    'password': '20My2003',
+    'user':  'fadhinotgr123',
+    'password': 'f@dh1n0TGR1234',
     'host': '127.0.0.1',
     'port': '5432'
 }
@@ -122,7 +112,7 @@ try:
     
     print("\n🔄 Generating 1000 transactions with items...")
     
-    for i in range(1000):
+    for i in range(213):
         # Generate transaction data
         transaction_id = uuid.uuid4()
         store_id = random.choice(STORE_IDS)

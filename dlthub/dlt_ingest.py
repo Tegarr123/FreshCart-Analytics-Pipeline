@@ -162,7 +162,7 @@ if __name__ == "__main__":
     conn = psycopg2.connect(
             host=os.environ["POSTGRES_HOST"],
             port=os.environ["POSTGRES_PORT"],
-            dbname=os.environ["POSTGRES_DATABASE"],
+            dbname=os.environ["POSTGRES_DB"],
             user=os.environ["POSTGRES_USER"],
             password=os.environ["POSTGRES_PASSWORD"],
         )
@@ -204,11 +204,10 @@ if __name__ == "__main__":
             print(f"Table {table_name}: {table.get('description')}")
             for column_name, column in table["columns"].items():
                 print(f"\tcolumn {column_name}: {column['data_type']}")
-    print("Metrics:")
-    print(f"Product Categories Loaded: {product_categories_loaded}")
-    print(f"Stores Loaded: {stores_loaded}")
+    print(f"Product Categories Loaded (always full loading): {product_categories_loaded}")
+    print(f"Stores Loaded (always full loading): {stores_loaded}")
     print(f"Products Loaded: {products_loaded}")
-    print(f"Promotions Loaded: {promotions_loaded}")
+    print(f"Promotions Loaded (always full loading): {promotions_loaded}")
     print(f"Customers Loaded: {customers_loaded}")
     print(f"Sales Transactions Loaded: {sales_transactions_loaded}")
     print(f"Sales Transaction Items Loaded: {sales_transaction_items_loaded}")
